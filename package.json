@@ -1,0 +1,27 @@
+{
+  "name": "cloud-task-wrapper",
+  "version": "1.0.2",
+  "description": "This package helps with utils that are not offered by @google-cloud/tasks",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sankhavaramsaitulasiram/cloud-task-wrapper/"
+  },
+  "keywords": [
+    "cloud tasks, google cloud task, cloud task wrapper, gcp, gcp cloud tasks"
+  ],
+  "author": "Ram Sankhavaram",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/tasks": "^3.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.2"
+  },
+  "homepage": "https://github.com/sankhavaramsaitulasiram/cloud-task-wrapper/"
+}
