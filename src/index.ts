@@ -7,12 +7,10 @@ A wrapper around @google-cloud/tasks with additional methods
 export class CloudTaskWrapper {
   private client: tasks.CloudTasksClient;
   private project: string;
-  private queue: string;
   private location: string;
   constructor(config: CloudTaskConfig) {
     this.client = new tasks.CloudTasksClient();
     this.project = process.env.PROJECT_ID || config?.project;
-    this.queue = process.env.CLOUDTASK_QUEUE || config?.queue;
     this.location = process.env.QUEUE_LOCATION || config?.location;
   }
 
@@ -28,10 +26,11 @@ export class CloudTaskWrapper {
    */
   async createCloudTask(
     task: tasks.protos.google.cloud.tasks.v2.ITask,
+    queue: string,
     name?: string
   ) {
     try {
-      const { client, project, location, queue } = this;
+      const { client, project, location } = this;
 
       const parent = client.queuePath(project, location, queue);
 
@@ -58,9 +57,9 @@ export class CloudTaskWrapper {
    * @param name Name of the cloud task to be retrieved
    * @returns the Task Details of cloud task
    */
-  async getCloudTaskByName(name: string) {
+  async getCloudTaskByName(name: string, queue: string) {
     try {
-      const { client, project, location, queue } = this;
+      const { client, project, location } = this;
       const taskPath = client.taskPath(project, location, queue, name);
       const request: tasks.protos.google.cloud.tasks.v2.IGetTaskRequest = {
         name: taskPath,
@@ -78,9 +77,9 @@ export class CloudTaskWrapper {
    * @param name Name of the cloud task to be deleted
    * @returns
    */
-  async deleteCloudTaskByName(name: string) {
+  async deleteCloudTaskByName(name: string, queue: string) {
     try {
-      const { client, project, location, queue } = this;
+      const { client, project, location } = this;
       const taskPath = client.taskPath(project, location, queue, name);
       const request: tasks.protos.google.cloud.tasks.v2.IDeleteTaskRequest = {
         name: taskPath,
@@ -99,14 +98,11 @@ export class CloudTaskWrapper {
    */
 
   async getCloudTasksByRegex(
-    regex: string
+    regex: string,
+    queue: string
   ): Promise<tasks.protos.google.cloud.tasks.v2.ITask[]> {
     try {
-      const parent = this.client.queuePath(
-        this.project,
-        this.location,
-        this.queue
-      );
+      const parent = this.client.queuePath(this.project, this.location, queue);
       const request: tasks.protos.google.cloud.tasks.v2.IListTasksRequest = {
         parent,
       };
@@ -134,9 +130,14 @@ export class CloudTaskWrapper {
    * @returns created cloud task name
    */
 
-  async updateHttpCloudTaskBody(name: string, body: string, newName?: string) {
+  async updateHttpCloudTaskBody(
+    name: string,
+    body: string,
+    queue: string,
+    newName?: string
+  ) {
     try {
-      const { project, location, queue, client } = this;
+      const { project, location, client } = this;
       const existingTaskPath = client.taskPath(project, location, queue, name);
 
       const existingTaskRequest: tasks.protos.google.cloud.tasks.v2.IGetTaskRequest =
@@ -189,10 +190,11 @@ export class CloudTaskWrapper {
   async updateAppEngineCloudTaskBody(
     name: string,
     body: string,
+    queue: string,
     newName?: string
   ) {
     try {
-      const { project, location, queue, client } = this;
+      const { project, location, client } = this;
       const existingTaskPath = client.taskPath(project, location, queue, name);
 
       const existingTaskRequest: tasks.protos.google.cloud.tasks.v2.IGetTaskRequest =
@@ -245,10 +247,11 @@ export class CloudTaskWrapper {
   async updateCloudTaskScheduledTime(
     name: string,
     inMinutes: number,
+    queue: string,
     newName?: string
   ) {
     try {
-      const { project, location, queue, client } = this;
+      const { project, location, client } = this;
 
       //Fetch the existing task and get the required data
       const existingTaskPath = client.taskPath(project, location, queue, name);

@@ -70,16 +70,15 @@ async function quickstart() {
 
   const config = {
     project,
-    queue,
     location,
   };
 
   const wrapper = new CloudTaskWrapper(config);
-  const cloudTasks = await wrapper.getCloudTasksByRegex(regex); //regex that matches name of your cloud task
+  const cloudTasks = await wrapper.getCloudTasksByRegex(regex, queue); //regex that matches name of your cloud task
 
   for (const cloudTask of cloudTasks) {
     const taskName = cloudTask.name.split("/").pop();
-    await wrapper.deleteCloudTaskByName(taskName);
+    await wrapper.deleteCloudTaskByName(taskName, queue);
   }
 
   console.log(`List of deleted cloud tasks ${cloudTasks}`);
@@ -101,7 +100,6 @@ async function quickstart() {
 
   const config = {
     project,
-    queue,
     location,
   };
 
@@ -116,6 +114,7 @@ async function quickstart() {
   const updatedCloudTask = await wrapper.updateCloudTaskScheduledTime(
     name,
     20,
+    queue,
     newName
   );
 
@@ -138,13 +137,12 @@ async function quickstart() {
 
   const config = {
     project,
-    queue,
     location,
   };
 
   const wrapper = new CloudTaskWrapper(config);
 
-  const cloudTask = await wrapper.getCloudTaskByName(name); //just the name of cloud task eg: 133454565656767
+  const cloudTask = await wrapper.getCloudTaskByName(name, queue); //just the name of cloud task eg: 133454565656767
 
   console.log(`The cloud task is - ${cloudTask}`);
 }
@@ -165,13 +163,12 @@ async function quickstart() {
 
   const config = {
     project,
-    queue,
     location,
   };
 
   const wrapper = new CloudTaskWrapper(config);
 
-  await wrapper.deleteCloudTaskByName(name); //just the name of cloud task eg: 133454565656767
+  await wrapper.deleteCloudTaskByName(name, queue); //just the name of cloud task eg: 133454565656767
 
   console.log(`Deleted the cloud task`);
 }
@@ -210,7 +207,7 @@ async function quickstart() {
   };
 
   // Send create task request.
-  const cloudTask = await wrapper.createCloudTask(task, name); //name of cloud task is optional
+  const cloudTask = await wrapper.createCloudTask(task, queue, name); //name of cloud task is optional
 
   console.log(`Created task ${cloudTask}`);
 }
@@ -231,7 +228,6 @@ async function quickstart() {
 
   const config = {
     project,
-    queue,
     location,
   };
 
@@ -249,7 +245,7 @@ async function quickstart() {
   };
 
   // Send create task request.
-  const cloudTask = await wrapper.createCloudTask(task, name); //name of cloud task is optional
+  const cloudTask = await wrapper.createCloudTask(task, queue, name); //name of cloud task is optional
 
   console.log(`Created task ${cloudTask}`);
 }

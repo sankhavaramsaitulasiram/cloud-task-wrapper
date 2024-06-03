@@ -1,6 +1,6 @@
 {
   "name": "cloud-task-wrapper",
-  "version": "1.0.2",
+  "version": "2.0.1",
   "description": "This package helps with utils that are not offered by @google-cloud/tasks",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
