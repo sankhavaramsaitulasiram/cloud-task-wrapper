@@ -1,6 +1,6 @@
 {
   "name": "cloud-task-wrapper",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "This package helps with utils that are not offered by @google-cloud/tasks",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
@@ -18,7 +18,7 @@
   "author": "Ram Sankhavaram",
   "license": "ISC",
   "dependencies": {
-    "@google-cloud/tasks": "^3.0.2"
+    "@google-cloud/tasks": "^5.4.0"
   },
   "devDependencies": {
     "typescript": "^4.8.2"

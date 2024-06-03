@@ -44,12 +44,11 @@ async function quickstart() {
 
   const config = {
     project,
-    queue,
     location,
   };
 
   const wrapper = new CloudTaskWrapper(config);
-  const cloudTasks = await wrapper.getCloudTasksByRegex(regex); //regex that matches name of your cloud task
+  const cloudTasks = await wrapper.getCloudTasksByRegex(regex, queue); //regex that matches name of your cloud task
 
   console.log(`List of matching cloud tasks ${cloudTasks}`);
 }
