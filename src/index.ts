@@ -1,4 +1,4 @@
-import * as tasks from "@google-cloud/tasks/";
+import * as tasks from "@google-cloud/tasks";
 import { CloudTaskConfig } from "./types";
 
 /**
@@ -9,7 +9,7 @@ export class CloudTaskWrapper {
   private project: string;
   private location: string;
   constructor(config: CloudTaskConfig) {
-    this.client = new tasks.CloudTasksClient();
+    this.client = new tasks.v2.CloudTasksClient();
     this.project = process.env.PROJECT_ID || config?.project;
     this.location = process.env.QUEUE_LOCATION || config?.location;
   }
